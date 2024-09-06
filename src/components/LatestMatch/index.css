@@ -1,0 +1,12 @@
+/* Write your CSS here */
+
+.latest-match-container {
+  margin: 15px;
+  padding: 25px;
+  display: flex;
+  justify-content: space-between;
+}
+
+li{
+  list-style-type: none;
+}

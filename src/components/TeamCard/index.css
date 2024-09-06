@@ -1,0 +1,18 @@
+/* Write your CSS here */
+.card-container {
+  margin: 10px;
+  padding: 25px;
+  background-color: #475569;
+  color: #ffffff;
+  display: flex;
+  border-radius: 10px;
+  width: 250px;
+}
+
+.team-img {
+  width: 100px;
+}
+
+.team-heading {
+  font-size: 25px;
+}

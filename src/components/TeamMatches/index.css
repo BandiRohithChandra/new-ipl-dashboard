@@ -1,0 +1,7 @@
+/* Write your CSS here */
+
+.recent-match-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+}

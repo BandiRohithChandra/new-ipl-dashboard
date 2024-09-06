@@ -1,0 +1,15 @@
+/* Write your CSS here */
+
+.card-container {
+  margin: 15px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+}
+
+.team-logo {
+  width: 80px;
+}
