@@ -1,4 +1,6 @@
 // Write your code here
+import {withRouter} from 'react-router-dom'
+import {PieChart, Pie, Legend, Tooltip, Cell} from 'recharts'
 import {Component} from 'react'
 import './index.css'
 import Loader from 'react-loader-spinner'
@@ -11,6 +13,11 @@ class TeamMatches extends Component {
     isLoading: true,
     teamBannerUrl: '',
     recentMatches: [],
+    matchStats: {
+      won: 0,
+      lost: 0,
+      drawn: 0,
+    },
   }
 
   componentDidMount() {
@@ -52,17 +59,68 @@ class TeamMatches extends Component {
       matchStatus: eachMatch.match_status,
     }))
 
+    const won = updatedRecentMatches.filter(matches => matches.result === 'Won')
+      .length
+
+    const lost = updatedRecentMatches.filter(
+      matches => matches.result === 'Lost',
+    ).length
+
+    const drawn = updatedRecentMatches.filter(
+      matches => matches.result === 'Drawn',
+    ).length
+
     this.setState({
       teamBannerUrl: data.team_banner_url,
       latestMatchDetails: updatedLatestMatchData,
       recentMatches: updatedRecentMatches,
+      matchStats: {won, lost, drawn},
       isLoading: false,
     })
   }
 
+  onClickBackButton = () => {
+    const {history} = this.props
+    history.push('/')
+  }
+
+  renderPieChart = () => {
+    const {matchStats} = this.state
+    const data = [
+      {name: 'Won', value: matchStats.won},
+      {name: 'Lost', value: matchStats.lost},
+      {name: 'Drawn', value: matchStats.drawn},
+    ]
+
+    const COLORS = ['#0088FE', '#FF8042', '#FFBB28']
+
+    return (
+      <PieChart width={300} height={300}>
+        <Pie
+          data={data}
+          cx={150}
+          cy={150}
+          outerRadius={100}
+          fill="#8884d8"
+          dataKey="value"
+        >
+          {data.map((entry, index) => (
+            <Cell key={entry.name} fill={COLORS[index % COLORS.length]} />
+          ))}
+        </Pie>
+        <Tooltip />
+        <Legend />
+      </PieChart>
+    )
+  }
+
   render() {
-    const {latestMatchDetails, teamBannerUrl, isLoading, recentMatches} =
-      this.state
+    const {
+      latestMatchDetails,
+      teamBannerUrl,
+      isLoading,
+      recentMatches,
+    } = this.state
     return (
       <div>
         {isLoading ? (
@@ -82,11 +140,25 @@ class TeamMatches extends Component {
             <li>
               <LatestMatch latestMatchDetails={latestMatchDetails} />
             </li>
+
+            <button
+              type="button"
+              className="back-button"
+              onClick={this.onClickBackButton}
+            >
+              Back
+            </button>
+
             <li className="recent-match-container">
               {recentMatches.map(eachMatch => (
                 <MatchCard key={eachMatch.id} recentMatches={eachMatch} />
               ))}
             </li>
+
+            <div className="pie-chart-container">
+              <h1>Match Statistics</h1>
+              {this.renderPieChart()}
+            </div>
           </div>
         )}
       </div>
@@ -94,4 +166,4 @@ class TeamMatches extends Component {
   }
 }
 
-export default TeamMatches
+export default withRouter(TeamMatches)

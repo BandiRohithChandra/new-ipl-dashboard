@@ -5,3 +5,22 @@
   flex-wrap: wrap;
   padding: 20px;
 }
+
+.back-button {
+  background-color: #0088fe;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin: 20px 0;
+  font-size: 16px;
+}
+
+.back-button:hover {
+  background-color: #005fb3;
+}
+
+.pie-chart-container {
+  margin-top: 50px;
+  text-align: center;
+}
